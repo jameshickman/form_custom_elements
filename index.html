@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <link rel="stylesheet" href="./css/styles.css" />
+    </head>
+    <body>
+        <h1>Custom form elements demonstration</h1>
+        <form id="main-form">
+            <trinary-input id="vis-controller"></trinary-input>
+            <form-section data-controller="#vis-controller" data-activate="true">
+                <h2>Dependant section on YES</h2>
+            </form-section>
+            <form-section data-controller="#vis-controller" data-activate="false">
+                <h2>Dependant section on NO</h2>
+            </form-section>
+            <form-repeater>
+                <div slot="form">
+                    <div class="form-repeater__container">
+                        <div class="form-repeater__container-header">
+                            <button class="form-repeater__delete-button">X</button>
+                        </div>
+                        <input type="text" name="txt-test">
+                        <select name="select-test">
+                            <option value="0">First</option>
+                            <option value="1">Second</option>
+                            <option value="2">Third</option>
+                        </select>
+                    </div>
+                    <div class="form-repeater__container">
+                        <div class="form-repeater__container-header">
+                            <button class="form-repeater__delete-button">X</button>
+                        </div>
+                        <input type="text" name="txt-test" value="An existing record">
+                        <select name="select-test">
+                            <option value="0">First</option>
+                            <option value="1" selected>Second</option>
+                            <option value="2">Third</option>
+                        </select>
+                    </div>
+                    <div class="form-repeater__container">
+                        <div class="form-repeater__container-header">
+                            <button class="form-repeater__delete-button">X</button>
+                        </div>
+                        <input type="text" name="txt-test" value="Another existing value">
+                        <select name="select-test">
+                            <option value="0">First</option>
+                            <option value="1">Second</option>
+                            <option value="2" selected>Third</option>
+                        </select>
+                    </div>
+                </div>
+                <div slot="button">
+                    <button>Add Field Set</button>
+                </div>
+            </form-repeater>
+        </form>
+        <button id="get-form-data">Get the form data</button>
+        <script type="module">
+            import {TrinaryElement} from "./js/forms/trinary.js";
+            import {FormRepeterSection} from "./js/forms/repeter.js";
+            import {FormDependantSection} from "./js/forms/dependant.js";
+
+            const el_form = document.getElementById("main-form");
+            document.getElementById("get-form-data").addEventListener('click', (e) => {
+                e.preventDefault();
+                const d = new FormData(el_form);
+                console.log(d);
+                return false;
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,10 @@
+.form-repeater__container-header {
+    position: relative;
+    padding-top: 40px;
+}
+
+.form-repeater__delete-button {
+    position: absolute;
+    top: 3px;
+    right: 0px;
+}

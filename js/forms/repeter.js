@@ -1,9 +1,21 @@
+import {uuidv4} from "../utility.js";
 
+const fix_ids = (el_section) => {
+    const els_labels = el_section.querySelectorAll("label");
+    for (const el_label of els_labels) {
+        const new_id = uuidv4();
+        const el_form_element = el_section.querySelector("[id=" + el_label.htmlFor + "]");
+        el_label.htmlFor = new_id;
+        el_form_element.id = new_id;
+    }
+    return el_section;
+}
 
 class FormRepeterSection extends HTMLElement {
     #shadow;
     #el_form_section_template;
     #el_container;
+    #el_button;
     constructor() {
         super();
         this.#shadow = this.attachShadow({ mode: "open" });
@@ -17,6 +29,7 @@ class FormRepeterSection extends HTMLElement {
                 </div>
             </div>
         `;
+        this.#el_button = this.#shadow.getElementById("button-slot").assignedElements()[0].querySelector("button");
     }
 
     connectedCallback() {
@@ -36,13 +49,22 @@ class FormRepeterSection extends HTMLElement {
         for (const el_existing of this.#el_container.children) {
             el_existing.querySelector(".form-repeater__delete-button").addEventListener('click', do_delete);
         }
-        this.#shadow.getElementById("button-slot").assignedElements()[0].querySelector("button").addEventListener('click', (e) => {
+        this.#el_button.addEventListener('click', (e) => {
             e.preventDefault();
             const el_new_section = this.#el_form_section_template.cloneNode(true);
             el_new_section.querySelector(".form-repeater__delete-button").addEventListener('click', do_delete);
-            this.#el_container.appendChild(el_new_section);
+            this.#el_container.appendChild(fix_ids(el_new_section));
             return false;
         });
+    }
+
+    addItem(data) {
+        this.#el_button.dispatchEvent(new Event('click'));
+        const el_new = this.#el_container.lastChild;
+        for (const field in data) {
+            const el_form_element = el_new.querySelector("[name=" + field + "]");
+            el_form_element.value = data[field];
+        }
     }
 }
 

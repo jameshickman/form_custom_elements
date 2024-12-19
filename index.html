@@ -14,14 +14,16 @@
             <form-section data-controller="#vis-controller" data-activate="false">
                 <h2>Dependant section on NO</h2>
             </form-section>
-            <form-repeater>
+            <form-repeater id="repeater">
                 <div slot="form">
                     <div class="form-repeater__container">
                         <div class="form-repeater__container-header">
                             <button class="form-repeater__delete-button">X</button>
                         </div>
-                        <input type="text" name="txt-test">
-                        <select name="select-test">
+                        <label for="text-text">Text field</label>
+                        <input id="text-text" type="text" name="txt-test">
+                        <label for="select-test">Select test</label>
+                        <select id="select-test" name="select-test">
                             <option value="0">First</option>
                             <option value="1">Second</option>
                             <option value="2">Third</option>
@@ -55,6 +57,7 @@
                 </div>
             </form-repeater>
         </form>
+        <button id="add-record">Add a record</button>
         <button id="get-form-data">Get the form data</button>
         <script type="module">
             import {TrinaryElement} from "./js/forms/trinary.js";
@@ -62,10 +65,19 @@
             import {FormDependantSection} from "./js/forms/dependant.js";
 
             const el_form = document.getElementById("main-form");
+            const el_repeater = document.getElementById("repeater");
             document.getElementById("get-form-data").addEventListener('click', (e) => {
                 e.preventDefault();
                 const d = new FormData(el_form);
                 console.log(d);
+                return false;
+            });
+            document.getElementById("add-record").addEventListener('click', (e) => {
+                e.preventDefault();
+                el_repeater.addItem({
+                    "txt-test": "Some text",
+                    "select-test": "1"
+                });
                 return false;
             });
         </script>
